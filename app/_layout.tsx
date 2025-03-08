@@ -1,11 +1,19 @@
 import { Slot } from "expo-router";
 import { SQLiteDatabase, SQLiteProvider } from "expo-sqlite";
+import { Suspense } from "react";
+import { ActivityIndicator } from "react-native";
 
 export default function RootLayout() {
   return (
-    <SQLiteProvider databaseName="handyman.db" onInit={migrateDbIfNeeded}>
-      <Slot />
-    </SQLiteProvider>
+    <Suspense fallback={<ActivityIndicator />}>
+      <SQLiteProvider
+        useSuspense
+        databaseName="handyman.db"
+        onInit={migrateDbIfNeeded}
+      >
+        <Slot />
+      </SQLiteProvider>
+    </Suspense>
   );
 }
 
