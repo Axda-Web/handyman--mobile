@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 import type { Location } from "@/types/interfaces";
 import { LocationForm } from "@/components/location-form";
-
+import { LocationListItem } from "@/components/location-list-item";
 function HomeScreen() {
   const db = useSQLiteContext();
   const [locations, setLocations] = useState<Location[]>([]);
@@ -23,12 +23,26 @@ function HomeScreen() {
     loadLocations();
   };
 
+  const deleteLocation = async (id: number) => {
+    await db.runAsync("DELETE FROM locations WHERE id = ?", id);
+    loadLocations();
+  };
+
   return (
     <View style={styles.container}>
       <LocationForm onSubmit={addLocation} />
       <FlatList
         data={locations}
-        renderItem={({ item }) => <Text>{item.name}</Text>}
+        renderItem={({ item }) => (
+          <LocationListItem
+            location={item}
+            onDelete={() => deleteLocation(item.id)}
+          />
+        )}
+        keyExtractor={(item) => item.id.toString()}
+        ListEmptyComponent={
+          <Text style={styles.emptyText}>No locations added yet</Text>
+        }
       />
     </View>
   );
@@ -37,6 +51,14 @@ function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  emptyText: {
+    fontSize: 16,
+    fontWeight: 500,
+    fontStyle: "italic",
+    color: "#333",
+    textAlign: "center",
+    marginTop: 16,
   },
 });
 
