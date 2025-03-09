@@ -39,6 +39,7 @@ async function migrateDbIfNeeded(db: SQLiteDatabase) {
 `);
     await db.runAsync("INSERT INTO locations (name) VALUES (?)", "School");
     await db.runAsync("INSERT INTO locations (name) VALUES (?)", "Hospital");
+    await db.runAsync("INSERT INTO locations (name) VALUES (?)", "Office");
     await db.runAsync(
       "INSERT INTO tasks (title, description, isUrgent, locationId) VALUES (?, ?, ?, ?)",
       ["Task 1", "Description 1", 0, 1]

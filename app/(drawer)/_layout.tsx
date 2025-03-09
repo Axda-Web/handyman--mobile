@@ -1,6 +1,6 @@
 import { Drawer } from "expo-router/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-// import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
+import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
 import * as SQLite from "expo-sqlite";
 import {
   DrawerContentScrollView,
@@ -18,7 +18,7 @@ import Logo from "@/assets/images/logo.png";
 
 const LOGO_IMAGE = Image.resolveAssetSource(Logo).uri;
 
-// const db = SQLite.openDatabaseSync("handyman.db");
+const dbStudio = SQLite.openDatabaseSync("handyman.db");
 
 const CustomDrawerContent = (props: any) => {
   const router = useRouter();
@@ -27,6 +27,9 @@ const CustomDrawerContent = (props: any) => {
   const db = useSQLiteContext();
   const [locations, setLocations] = useState<Location[]>([]);
   const isDrawerOpen = useDrawerStatus() === "open";
+
+  useDrizzleStudio(dbStudio);
+
   const loadLocations = async () => {
     const locations = await db.getAllAsync<Location>(`
       SELECT * FROM locations
@@ -93,6 +96,7 @@ export default function DrawerLayout() {
           name="location"
           options={{
             title: "Location",
+            headerShown: false,
             drawerItemStyle: {
               display: "none",
             },
