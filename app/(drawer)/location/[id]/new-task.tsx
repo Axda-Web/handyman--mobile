@@ -13,7 +13,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useEffect, useState } from "react";
 import { Task } from "@/types/interfaces";
-// import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 // import { TimeIntervalTriggerInput } from 'expo-notifications';
 // import * as Notifications from 'expo-notifications';
 // import { SchedulableTriggerInputTypes } from 'expo-notifications';
@@ -109,15 +109,15 @@ const Page = () => {
   };
 
   const pickImage = async () => {
-    // const result = await ImagePicker.launchImageLibraryAsync({
-    //   mediaTypes: 'images',
-    //   allowsEditing: true,
-    //   aspect: [4, 3],
-    //   quality: 1,
-    // });
-    // if (!result.canceled) {
-    //   setImageUri(result.assets[0].uri);
-    // }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: "images",
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
   };
 
   const scheduleNotification = async (taskId: number, title: string) => {
