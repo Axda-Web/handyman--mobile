@@ -14,17 +14,17 @@ import { useSQLiteContext } from "expo-sqlite";
 import { useEffect, useState } from "react";
 import { Task } from "@/types/interfaces";
 import * as ImagePicker from "expo-image-picker";
-// import { TimeIntervalTriggerInput } from 'expo-notifications';
-// import * as Notifications from 'expo-notifications';
-// import { SchedulableTriggerInputTypes } from 'expo-notifications';
+import { TimeIntervalTriggerInput } from "expo-notifications";
+import * as Notifications from "expo-notifications";
+import { SchedulableTriggerInputTypes } from "expo-notifications";
 
-// Notifications.setNotificationHandler({
-//   handleNotification: async () => ({
-//     shouldShowAlert: true,
-//     shouldPlaySound: true,
-//     shouldSetBadge: false,
-//   }),
-// });
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 const Page = () => {
   const { id: locationId, taskId } = useLocalSearchParams<{
@@ -43,7 +43,7 @@ const Page = () => {
     if (taskId) {
       loadTaskData();
     }
-    // Notifications.requestPermissionsAsync();
+    Notifications.requestPermissionsAsync();
   }, [taskId]);
 
   const loadTaskData = async () => {
@@ -121,17 +121,17 @@ const Page = () => {
   };
 
   const scheduleNotification = async (taskId: number, title: string) => {
-    // Notifications.scheduleNotificationAsync({
-    //   content: {
-    //     title: 'Urgent Task Reminder',
-    //     body: `Don't forget about your urgent task: ${title}`,
-    //     data: { taskId, locationId },
-    //   },
-    //   trigger: {
-    //     type: SchedulableTriggerInputTypes.TIME_INTERVAL,
-    //     seconds: 2,
-    //   },
-    // });
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Urgent Task Reminder",
+        body: `Don't forget about your urgent task: ${title}`,
+        data: { taskId, locationId },
+      },
+      trigger: {
+        type: SchedulableTriggerInputTypes.TIME_INTERVAL,
+        seconds: 2,
+      },
+    });
   };
 
   return (
