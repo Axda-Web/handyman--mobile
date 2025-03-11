@@ -53,9 +53,7 @@ export default function LocationDetailsScreen() {
       <Stack.Screen options={{ title: locationName || "Tasks" }} />
       <FlatList
         ListEmptyComponent={
-          <View>
-            <Text>No tasks found</Text>
-          </View>
+          <Text style={styles.emptyText}>No tasks found</Text>
         }
         data={tasks}
         renderItem={({ item }) => <TaskListItem task={item} />}
